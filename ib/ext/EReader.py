@@ -23,10 +23,10 @@ from ib.ext.TickType import TickType
 from ib.ext.UnderComp import UnderComp
 from ib.ext.Util import Util
 
-# 
+#
 #  * EReader.java
 #  *
-#  
+#
 # package: com.ib.client
 
 
@@ -76,6 +76,10 @@ class EReader(Thread):
     POSITION_END = 62
     ACCOUNT_SUMMARY = 63
     ACCOUNT_SUMMARY_END = 64
+    VERIFY_MESSAGE_API = 65
+    VERIFY_COMPLETED = 66
+    DISPLAY_GROUP_LIST = 67
+    DISPLAY_GROUP_UPDATED = 68
     m_parent = None
     m_dis = None
 
@@ -117,7 +121,7 @@ class EReader(Thread):
         except Exception as e:
             pass
 
-    #  Overridden in subclass. 
+    #  Overridden in subclass.
     def processMsg(self, msgId):
         """ generated source for method processMsg """
         if msgId == -1:
@@ -382,7 +386,7 @@ class EReader(Thread):
                 order.m_permId = self.readInt()
                 if version < 18:
                     #  will never happen
-                    #  order.m_ignoreRth = 
+                    #  order.m_ignoreRth =
                     self.readBoolFromInt()
                 else:
                     order.m_outsideRth = self.readBoolFromInt()
@@ -419,7 +423,7 @@ class EReader(Thread):
                 order.m_displaySize = self.readInt()
                 if version < 18:
                     #  will never happen
-                    #  order.m_rthOnly = 
+                    #  order.m_rthOnly =
                     self.readBoolFromInt()
                 order.m_blockOrder = self.readBoolFromInt()
                 order.m_sweepToFill = self.readBoolFromInt()
@@ -482,7 +486,7 @@ class EReader(Thread):
                         comboLeg.m_exemptCode = self.readInt()
                         contract.m_comboLegs.append(comboLeg)
                         i += 1
-                orderComboLegsCount = self.readInt() 
+                orderComboLegsCount = self.readInt()
                 if orderComboLegsCount > 0:
                     order.m_orderComboLegs = []
                     i = 0
@@ -507,7 +511,7 @@ class EReader(Thread):
                     order.m_scaleInitLevelSize = self.readIntMax()
                     order.m_scaleSubsLevelSize = self.readIntMax()
                 else:
-                    #  int notSuppScaleNumComponents = 
+                    #  int notSuppScaleNumComponents =
                     self.readIntMax()
                     order.m_scaleInitLevelSize = self.readIntMax()
                 order.m_scalePriceIncrement = self.readDoubleMax()
@@ -883,6 +887,33 @@ class EReader(Thread):
             commissionReport.m_yield = self.readDouble()
             commissionReport.m_yieldRedemptionDate = self.readInt()
             self.eWrapper().commissionReport(commissionReport)
+        elif msgId == self.VERIFY_MESSAGE_API:
+            # int version =
+            self.readInt()
+            apiData = self.readStr()
+            self.eWrapper().verifyMessageAPI(apiData)
+        elif msgId == self.VERIFY_COMPLETED:
+            # int version =
+            self.readInt()
+            isSuccessfulStr = self.readStr()
+            isSuccessful = "true" == isSuccessfulStr
+            errorText = self.readStr()
+            if isSuccessful:
+                self.m_parent.startAPI()
+
+            self.eWrapper().verifyCompleted(isSuccessful, errorText)
+        elif msgId == self.DISPLAY_GROUP_LIST:
+            # int version =
+            self.readInt()
+            reqId = self.readInt()
+            groups = self.readStr()
+            self.eWrapper().displayGroupList(reqId, groups)
+        elif msgId == self.DISPLAY_GROUP_UPDATED:
+            # int version =
+            self.readInt()
+            reqId = self.readInt()
+            contractInfo = self.readStr()
+            self.eWrapper().displayGroupUpdated(reqId, contractInfo)
         else:
             self.m_parent.error(EClientErrors.NO_VALID_ID, EClientErrors.UNKNOWN_ID.code(), EClientErrors.UNKNOWN_ID.msg())
             return False
@@ -918,7 +949,7 @@ class EReader(Thread):
     def readLong(self):
         """ generated source for method readLong """
         strval = self.readStr()
-        return 0l if strval is None else Long.parseLong(strval)
+        return 0 if strval is None else Long.parseLong(strval)
 
     def readDouble(self):
         """ generated source for method readDouble """

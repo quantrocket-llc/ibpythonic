@@ -8,10 +8,10 @@
 
 from ib.lib import Double, Integer
 from ib.ext.Util import Util
-# 
+#
 #  * Order.java
 #  *
-#  
+#
 # package: com.ib.client
 
 
@@ -66,7 +66,7 @@ class Order(object):
     m_trailStopPrice = float()  #  for TRAILLIMIT orders only
     m_trailingPercent = float()  #  specify the percentage, e.g. 3, not .03
 
-    #  Financial advisors only 
+    #  Financial advisors only
     m_faGroup = ""
     m_faProfile = ""
     m_faMethod = ""
@@ -89,7 +89,7 @@ class Order(object):
     #  BOX or VOL ORDERS ONLY
     m_auctionStrategy = 0   #  1=AUCTION_MATCH, 2=AUCTION_IMPROVEMENT, 3=AUCTION_TRANSPARENT
 
-    
+
     #  BOX ORDERS ONLY
     m_startingPrice = float()
     m_stockRefPrice = float()
@@ -118,7 +118,7 @@ class Order(object):
     #  COMBO ORDERS ONLY
     m_basisPoints = float() #  EFP orders only, download only
     m_basisPointsType = 0   #  EFP orders only, download only
-    
+
     #  SCALE ORDERS ONLY
     m_scaleInitLevelSize = 0
     m_scaleSubsLevelSize = 0
@@ -135,7 +135,7 @@ class Order(object):
     #  HEDGE ORDERS ONLY
     m_hedgeType = ""    #  'D' - delta, 'B' - beta, 'F' - FX, 'P' - pair
     m_hedgeParam = ""   #  beta value for beta hedge (in range 0-1), ratio for pair hedge
-    
+
     #  Clearing info
     m_account = ""          #  IB account
     m_settlingFirm = ""
@@ -157,6 +157,9 @@ class Order(object):
 
     #  order combo legs
     m_orderComboLegs = []
+
+    # order misc options
+    m_orderMiscOptions = None
 
     def __init__(self):
         """ generated source for method __init__ """

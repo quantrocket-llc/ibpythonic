@@ -8,10 +8,10 @@
 from abc import ABCMeta, abstractmethod
 
 from ib.ext.AnyWrapper import AnyWrapper
-# 
+#
 #  * EWrapper.java
 #  *
-#  
+#
 # package: com.ib.client
 class EWrapper(AnyWrapper):
     """ generated source for interface EWrapper """
@@ -174,3 +174,19 @@ class EWrapper(AnyWrapper):
     @abstractmethod
     def accountSummaryEnd(self, reqId):
         """ generated source for method accountSummaryEnd """
+
+    @abstractmethod
+    def verifyMessageAPI(self, apiData):
+        """ generated source for method verifyMessageAPI """
+
+    @abstractmethod
+    def verifyCompleted(self, isSuccessful, errorText):
+        """ generated source for method verifyCompleted """
+
+    @abstractmethod
+    def displayGroupList(self, reqId, groups):
+        """ generated source for method displayGroupList """
+
+    @abstractmethod
+    def displayGroupUpdated(self, reqId, contractInfo):
+        """ generated source for method displayGroupUpdated """

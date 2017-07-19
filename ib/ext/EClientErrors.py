@@ -6,10 +6,10 @@
 #
 # WARNING: all changes to this file will be lost.
 
-# 
+#
 #  * EClientErrors.java
 #  *
-#  
+#
 # package: com.ib.client
 class EClientErrors(object):
     """ generated source for class EClientErrors """
@@ -39,16 +39,16 @@ class EClientErrors(object):
         # /////////////////////////////////////////////////////////////////
         #  Constructors
         # /////////////////////////////////////////////////////////////////
-        # 
+        #
         #         *
-        #         
+        #
         def __init__(self, i, errString):
             """ generated source for method __init__ """
             self.m_errorCode = i
             self.m_errorMsg = errString
 
     NO_VALID_ID = -1
-    
+
     NOT_CONNECTED = CodeMsgPair(504, "Not connected")
     UPDATE_TWS = CodeMsgPair(503, "The TWS is out of date and must be upgraded.")
     ALREADY_CONNECTED = CodeMsgPair(501, "Already connected.")
@@ -89,3 +89,10 @@ class EClientErrors(object):
     FAIL_SEND_CANPOSITIONS = CodeMsgPair(541, "Cancel Positions Sending Error - ")
     FAIL_SEND_REQACCOUNTDATA = CodeMsgPair(542, "Request Account Data Sending Error - ")
     FAIL_SEND_CANACCOUNTDATA = CodeMsgPair(543, "Cancel Account Data Sending Error - ")
+    FAIL_SEND_VERIFYREQUEST = CodeMsgPair(544, "Verify Request Sending Error - ")
+    FAIL_SEND_VERIFYMESSAGE = CodeMsgPair(545, "Verify Message Sending Error - ")
+    FAIL_SEND_QUERYDISPLAYGROUPS = CodeMsgPair(546, "Query Display Groups Sending Error - ")
+    FAIL_SEND_SUBSCRIBETOGROUPEVENTS = CodeMsgPair(547, "Subscribe To Group Events Sending Error - ")
+    FAIL_SEND_UPDATEDISPLAYGROUP = CodeMsgPair(548, "Update Display Group Sending Error - ")
+    FAIL_SEND_UNSUBSCRIBEFROMGROUPEVENTS = CodeMsgPair(549, "Unsubscribe From Group Events Sending Error - ")
+    FAIL_SEND_STARTAPI = CodeMsgPair(550, "Start API Sending Error - ")
