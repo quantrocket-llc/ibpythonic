@@ -82,7 +82,7 @@ class Contract(Cloneable):
         """ generated source for method equals """
         if self is p_other:
             return True
-        if p_other is None or not (isinstance(p_other, (Contract, ))):
+        if p_other is None or not (isinstance(p_other, Contract)):
             return False
         l_theOther = p_other
         if self.m_conId != l_theOther.m_conId:

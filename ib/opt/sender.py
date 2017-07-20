@@ -74,7 +74,7 @@ class Sender(object):
         preType, postType = registry[preName], registry[postName]
         @wraps(value)
         def wrapperMethod(*args):
-            mapping = dict(zip(preType.__slots__, args))
+            mapping = dict(list(zip(preType.__slots__, args)))
             results = self.dispatcher(preName, mapping)
             if not all(results):
                 return # raise exception instead?

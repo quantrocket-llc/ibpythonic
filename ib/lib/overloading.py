@@ -40,7 +40,7 @@ from types import MethodType as instancemethod
 
 # Make the environment more like Python 3.0
 __metaclass__ = type
-from itertools import izip as zip
+
 
 
 class overloaded:

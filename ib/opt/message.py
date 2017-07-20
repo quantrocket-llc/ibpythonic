@@ -64,7 +64,7 @@ def messageTypeNames():
     @return set of all message type names as strings
     """
     def typeNames():
-        for types in registry.values():
+        for types in list(registry.values()):
             for typ in types:
                 yield typ.typeName
     return set(typeNames())
@@ -89,14 +89,14 @@ class Message(object):
         """ x.__len__() <==> len(x)
 
         """
-        return len(self.keys())
+        return len(list(self.keys()))
 
     def __str__(self):
         """ x.__str__() <==> str(x)
 
         """
         name = self.typeName
-        items = str.join(', ', ['%s=%s' % item for item in self.items()])
+        items = str.join(', ', ['%s=%s' % item for item in list(self.items())])
         return '<%s%s>' % (name, (' ' + items) if items else '')
 
     def items(self):
@@ -104,14 +104,14 @@ class Message(object):
 
         @return list of 2-tuples, each slot (name, value)
         """
-        return zip(self.keys(), self.values())
+        return list(zip(list(self.keys()), list(self.values())))
 
     def values(self):
         """ List of instance slot values.
 
         @return list of each slot value
         """
-        return [getattr(self, key, None) for key in self.keys()]
+        return [getattr(self, key, None) for key in list(self.keys())]
 
     def keys(self):
         """ List of instance slots.
@@ -163,7 +163,7 @@ buildMessageRegistry(errorMethods)
 
 def initModule():
     target = globals()
-    for messageTypes in registry.values():
+    for messageTypes in list(registry.values()):
         for messageType in messageTypes:
             target[messageType.typeName] = messageType
 

@@ -13,9 +13,8 @@ from ib.lib.overloading import overloaded
 #  *
 #  
 # package: com.ib.client
-class AnyWrapper(object):
+class AnyWrapper(object, metaclass=ABCMeta):
     """ generated source for interface AnyWrapper """
-    __metaclass__ = ABCMeta
     @abstractmethod
     @overloaded
     def error(self, e):

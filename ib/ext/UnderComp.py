@@ -27,7 +27,7 @@ class UnderComp(object):
         """ generated source for method equals """
         if self is p_other:
             return True
-        if p_other is None or not (isinstance(p_other, (UnderComp, ))):
+        if p_other is None or not (isinstance(p_other, UnderComp)):
             return False
         l_theOther = p_other
         if self.m_conId != l_theOther.m_conId:

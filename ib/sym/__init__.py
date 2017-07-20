@@ -78,15 +78,15 @@ class AuctionStrategy:
 
 class ServerLogLevel:
     system, error, warning, information, detail = \
-            sys, err, warn, info, det = range(1, 6)
+            sys, err, warn, info, det = list(range(1, 6))
 
 
 class FaDataType:
-    groups, profile, account_aliases = range(1, 4)
+    groups, profile, account_aliases = list(range(1, 4))
 
 
 class ExerciseAction:
-    exercise, lapse = range(1, 3)
+    exercise, lapse = list(range(1, 3))
 
 
 class TriggerMethod:

@@ -158,7 +158,7 @@ class Double(float):
     """
     ##
     # sentinel value used by the socket writer
-    MAX_VALUE = sys.maxint
+    MAX_VALUE = sys.maxsize
 
     @staticmethod
     def parseDouble(text):
@@ -176,7 +176,7 @@ class Integer(int):
     """
     ##
     # sentinel value used by the socket writer
-    MAX_VALUE = sys.maxint
+    MAX_VALUE = sys.maxsize
 
     @staticmethod
     def parseInt(text):
@@ -194,7 +194,7 @@ class Integer(int):
         @param text value to parse
         @return long instance
         """
-        return long(text or 0)
+        return int(text or 0)
 
 
 ##
@@ -227,7 +227,7 @@ class Socket(socket.socket):
 
         """
         return self
-    
+
     def disconnect(self):
         self.shutdown(socket.SHUT_RDWR)
         self.close()
@@ -236,9 +236,9 @@ class Socket(socket.socket):
         try:
             throwaway = self.getpeername()
             return True
-        except (socket.error, ), ex:
+        except (socket.error, ) as ex:
             return False
-        
+
 
 class StringBuffer(list):
     """ Partial implementation of the Java StringBuffer type
@@ -385,7 +385,7 @@ class Thread(ThreadType):
 
     def term(self):
         def isInterrupted():
-            print 'down town'
+            print('down town')
             return True
         self.isInterrupted = isInterrupted
         self.m_dis.stream.shutdown(socket.SHUT_RDWR)

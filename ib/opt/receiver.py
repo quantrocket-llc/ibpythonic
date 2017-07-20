@@ -23,7 +23,7 @@ def messageMethod(name, parameters):
     @return newly created method (as closure)
     """
     def dispatchMethod(self, *arguments):
-        self.dispatcher(name, dict(zip(parameters, arguments)))
+        self.dispatcher(name, dict(list(zip(parameters, arguments))))
     dispatchMethod.__name__ = name
     return dispatchMethod
 
@@ -47,13 +47,12 @@ class ReceiverType(type):
         return type(name, bases, namespace)
 
 
-class Receiver(object):
+class Receiver(object, metaclass=ReceiverType):
     """ Receiver -> dispatches messages to interested callables
 
     Instances implement the EWrapper interface by way of the
     metaclass.
     """
-    __metaclass__ = ReceiverType
 
     def __init__(self, dispatcher):
         """ Initializer.

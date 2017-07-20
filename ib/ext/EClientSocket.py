@@ -274,7 +274,7 @@ class EClientSocket(object):
             return
         try:
             self.m_socket = Socket(host, port)
-            self.eConnect(self.m_socket)
+            self.eConnect_0(self.m_socket)
         except Exception as e:
             self.eDisconnect()
             self.connectionError()
@@ -309,10 +309,10 @@ class EClientSocket(object):
         self.m_reader = self.createReader(self, DataInputStream(socket.getInputStream()))
         #  check server version
         self.m_serverVersion = self.m_reader.readInt()
-        print("Server Version: %d" % self.m_serverVersion)
+        print(("Server Version: %d" % self.m_serverVersion))
         if self.m_serverVersion >= 20:
             self.m_TwsTime = self.m_reader.readStr()
-            print("TWS Time at connection:" + self.m_TwsTime)
+            print(("TWS Time at connection:" + self.m_TwsTime))
         if self.m_serverVersion < self.SERVER_VERSION:
             self.eDisconnect()
             self.m_anyWrapper.error(EClientErrors.NO_VALID_ID, EClientErrors.UPDATE_TWS.code(), EClientErrors.UPDATE_TWS.msg())
@@ -2005,7 +2005,7 @@ class EClientSocket(object):
         """ generated source for method send_2 """
         self.send(str(val))
 
-    @send.register(object, long)
+    @send.register(object, int)
     def send_3(self, val):
         """ generated source for method send_3 """
         self.send(str(val))

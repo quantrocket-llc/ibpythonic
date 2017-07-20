@@ -13,9 +13,8 @@ from ib.ext.AnyWrapper import AnyWrapper
 #  *
 #
 # package: com.ib.client
-class EWrapper(AnyWrapper):
+class EWrapper(AnyWrapper, metaclass=ABCMeta):
     """ generated source for interface EWrapper """
-    __metaclass__ = ABCMeta
     # /////////////////////////////////////////////////////////////////////
     #  Interface methods
     # /////////////////////////////////////////////////////////////////////

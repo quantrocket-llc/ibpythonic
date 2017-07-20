@@ -5,7 +5,7 @@
 # Defines Dispatcher class to send messages to registered listeners.
 #
 ##
-from Queue import Queue, Empty
+from queue import Queue, Empty
 
 from ib.lib import maybeName, logger
 from ib.opt import message
@@ -67,7 +67,7 @@ class Dispatcher(object):
         @param message instance of Message
         @return None
         """
-        line = str.join(', ', ('%s=%s' % item for item in message.items()))
+        line = str.join(', ', ('%s=%s' % item for item in list(message.items())))
         self.logger.debug('%s(%s)', message.typeName, line)
 
     def iterator(self, *types):
@@ -114,7 +114,7 @@ class Dispatcher(object):
         @param listener callable to receive messages
         @return True if associated with one or more handler; otherwise False
         """
-        return self.register(listener, *[maybeName(i) for v in self.messageTypes.values() for i in v])
+        return self.register(listener, *[maybeName(i) for v in list(self.messageTypes.values()) for i in v])
 
     def unregister(self, listener, *types):
         """ Disassociate listener with message types created by this Dispatcher.

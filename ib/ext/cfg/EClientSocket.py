@@ -23,7 +23,7 @@ modulePrologueHandlers += [
 
 def maybeSynchronizedMLockMethod(method):
     if 'synchronized' in method.modifiers:
-        module = method.parents(lambda x:x.isModule).next()
+        module = next(method.parents(lambda x:x.isModule))
         module.needsSyncHelpers = True
         yield '@synchronized(mlock)'
 
