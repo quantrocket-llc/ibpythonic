@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-##
-# IbPy package root.
-#
-##
-
-__version__ = '0.8.0'
-
-from ibopt.patch.patch_ibapi import patch
-patch()
+try:
+    from ibapi_grease import patch_all
+except ImportError:
+    pass
+else:
+    patch_all()
 
 ##
 # Sugary sweet layer of icing on top of the TWS API.
@@ -29,14 +26,6 @@ patch()
 #    con.unregister(my_callback, message.TickSize)
 #    }}}
 #
-# Enable and disable logging:
-#
-#    {{{
-#    con.enableLogging()
-#    ...
-#    con.enableLogging(False)
-#    }}}
-##
 from ibopt.connection import Connection
 
 

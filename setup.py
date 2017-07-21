@@ -13,4 +13,7 @@ setup(
     url='https://github.com/quantrocket-llc/ibopt',
     license='BSD License',
     packages=['ibopt', 'ibopt/lib'],
+    install_requires=[
+        'ibapi-grease'
+    ]
 )
