@@ -1,59 +1,125 @@
-# IbPy - Interactive Brokers Python API
+# ibopt 
+IbPy-like interface for the Interactive Brokers Python API
 
-## NOTE
+## Background
 
-Beginning with release 9.73, InteractiveBrokers is now officially supporting a new Python API client (Python 3 only).
-This should make this repo superfluous except for Python 2.
+Prior to 2017, [IbPy](https://github.com/blampe/IbPy) was the de facto way to connect to the Interactive Brokers API using Python. Beginning with release 9.73, Interactive Brokers now officially supports a Python API client, rendering IbPy obsolete. IbPy development stopped with API release 970, meaning users who still use IbPy don't have access to a considerable number of features which Interactive Brokers has added in subsequent API releases.
 
-For more info: https://interactivebrokers.github.io/tws-api/#gsc.tab=0
+Although the Java-to-Python translation which IbPy provided is now superfluous, IbPy also provided its own so-called "optional" interface which many IbPy users found more convenient than the default paradigm of subclassing `EClient` and `EWrapper`. 
 
-## What is IbPy?
-
-IbPy is a third-party implementation of the API used for accessing the
-Interactive Brokers online trading system. IbPy implements functionality that
-the Python programmer can use to connect to IB, request stock ticker data,
-submit orders for stocks and futures, and more.
+ibopt is a fork of IbPy which removes the translated Java code from `ib.ext` and updates the optional interface in `ib.opt` to support the offical Python API client. 
 
 ## Installation
 
-There is a package maintained on PyPI under the name IbPy2, it's version is in sync
-with the tags on GitHub.
+Install from pip:
 
 ```
-pip install IbPy2
+pip install ibopt
 ```
 
-Alternatively, it can be installed from source. From within the IbPy directory, execute:
+## Requirements
 
+* Interactive Brokers Python API client. The client isn't automatically installed by ibopt but is available [here](https://interactivebrokers.github.io/). The client requires Python 3.
+* ibopt installs [ibapi-grease](https://github.com/quantrocket-llc/ibapi-grease) to deal with some current slowness in the Python API client implementation. If you don't want this, install ibopt with no dependencies: `pip install --no-deps ibopt`
+
+## Quickstart
+
+Usage looks very similar to IbPy:
+    
+```python
+from ibopt import ibConnection, message
+from ibapi.contract import Contract
+
+def contractDetailsHandler(msg):
+    print(msg.contractDetails)
+    # do something with contractDetails msg
+
+def errorHandler(msg):
+    print(msg)
+
+conn = ibConnection(port=4001, clientId=100)
+
+conn.register(contractDetailsHandler, message.contractDetails)
+conn.register(errorHandler, message.error)
+
+contract = Contract()
+contract.symbol = "AAPL"
+contract.exchange = "SMART"
+contract.secType = "STK"
+contract.currency = "USD"
+
+conn.connect()
+conn.reqContractDetails(1, contract)
+
+conn.unregister(contractDetailsHandler, message.contractDetails)
+conn.unregister(errorHandler, message.error)
+
+conn.disconnect()
 ```
-python setup.py install
-```
 
-Pip also supports installing directly from GitHub, e.g. if you want commit `83b9d08ed9c850d840a6700d0fb9c3ca164f9bff`, use
+## Migrating from IbPy
 
-```
-pip install git+https://github.com/blampe/IbPy@83b9d08ed9c850d840a6700d0fb9c3ca164f9bff
-```
+ibopt is IbPy-like but it is not a drop-in replacement for IbPy. Migrating existing code from IbPy to ibopt will involve, at minimum, the following changes:
 
-## How do I use IbPy?
+* **import paths have changed**: Anything your code imports from `ib.opt` will now come from `ibopt`.
+* **ib.ext is gone, use ibapi instead**: Anything your code imports from `ib.ext`, such as `Contract` and `Order` objects, will now need to come from the relevant `ibapi` module. Moreover, the attribute name for these objects have changed (for example, `Contract.m_conId` is now `Contract.conId`). Review the API client documentation for details: https://interactivebrokers.github.io/tws-api/index.html#gsc.tab=0
+* **TickType.getField has changed**: If your code uses `TickType.getField(tickType)` to look up field names by tick type integers, the field names have changed. For example, `'bidSize'` is now `'BID_SIZE'`. You can see the new names by looking at `ibapi.ticktype.TickTypeEnum`.
+* **Python 3 only**: The official Python client from Interactive Brokers requires Python 3. 
 
-See the IbPy wiki page https://github.com/blampe/IbPy/wiki/Getting-Started
 
-## What are the requirements?
+There are probably additional gotchas.  
 
-* Python >2.5 or >3.3. Previous versions are not supported.
-* Either a running instance of Trader Workstation (TWS) or IB Gateway.
+## Usage guide
+ibopt provides an optional interface that does not require subclassing. This interface provides several conveniences for your use.
 
+To interoperate with this package, first define your handlers. Each handler must take a single parameter, a Message instance. Instances of Message have attributes and values set by the connection object before they're passed to your handler.
+
+After your handlers are defined, you associate them with the connection object via the register method. You pass your handler as the first parameter, and you indicate what message types to send it with parameters that follow it. Message types can be strings, or better, Message classes. Both forms are shown here:
+
+    connection.register(my_account_handler, 'UpdateAccountValue')
+    connection.register(my_tick_handler, message.TickPrice, message.TickSize)
+
+You can break the association between your handlers and messages with the unregister method, like so:
+
+    connection.unregister(my_tick_handler, message.TickSize)
+
+In the above example, my_tick_handler will still be called with TickPrice messages.
+
+Connection objects also allow you to associate a handler with all messages generated. The call looks like this:
+
+    connection.registerAll(my_generic_handler)
+
+And of course, there's an unregisterAll method as well:
+
+    connection.unregisterAll(my_generic_handler)
+
+### Attributes
+The Connection class exposes the attributes of its connection, so you can write:
+
+    connection.reqIds()
+
+### Logging
+The Connection class provides a basic logging facility (via the Python logging module). To activate it, call it like this:
+
+    connection.enableLogging()
+
+To deactivate logging, call the same method with False as the first parameter:
+
+    connection.enableLogging(False)
+
+### Message Objects
+Your handlers are passed a single parameter, an instance of the Message class (or one of its subclasses). These instances will have attributes that match the parameter names from the underlying method call. For example, when you're passed a Message instance generated from a TickSize call, the object might look like this:
+
+    msg.tickerId = 4
+    msg.field = 3
+    msg.size = 100
+    
 ## License
 
-IbPy is distributed under the New BSD License. See the LICENSE file in the
+ibopt is distributed under the New BSD License. See the LICENSE file in the
 release for details.
 
 ## Note
 
-IbPy is not a product of Interactive Brokers, nor is this project affiliated
+ibopt is not a product of Interactive Brokers, nor is this project affiliated
 with IB.
-
-## Source code
-
-https://github.com/blampe/IbPy
