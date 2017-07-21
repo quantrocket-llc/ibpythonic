@@ -2,11 +2,19 @@
 # -*- coding: utf-8 -*-
 
 ##
+# IbPy package root.
+#
+##
+
+__version__ = '0.8.0'
+
+
+##
 # Sugary sweet layer of icing on top of the TWS API.
 #
 # Use:
 #    {{{
-#    from ib.opt import ibConnection, message
+#    from ibopt import ibConnection, message
 #
 #    def my_callback(msg):
 #        ...
@@ -27,7 +35,7 @@
 #    con.enableLogging(False)
 #    }}}
 ##
-from ib.opt.connection import Connection
+from ibopt.connection import Connection
 
 
 ##

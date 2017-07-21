@@ -14,10 +14,9 @@ from ast import NodeVisitor, parse
 from inspect import getsourcefile
 from re import match
 
-from ib.ext.AnyWrapper import AnyWrapper
-from ib.ext.EWrapper import EWrapper
-from ib.ext.EClientSocket import  EClientSocket
-from ib.lib import toTypeName
+from ibapi.wrapper import EWrapper
+from ibapi.client import  EClient
+from ibopt.lib import toTypeName
 
 
 class SignatureAccumulator(NodeVisitor):
@@ -38,7 +37,7 @@ class SignatureAccumulator(NodeVisitor):
         self.signatures.append((node.name, args[1:]))
 
 
-class EClientSocketAccumulator(SignatureAccumulator):
+class EClientAccumulator(SignatureAccumulator):
     def getSignatures(self):
         for name, args in self.signatures:
             if match('(?i)req|cancel|place', name):
@@ -150,15 +149,15 @@ def buildMessageRegistry(seq, suffixes=[''], bases=(Message, )):
 
 
 
-eWrapperAccum = EWrapperAccumulator((AnyWrapper, EWrapper))
-eClientAccum = EClientSocketAccumulator((EClientSocket, ))
+eWrapperAccum = EWrapperAccumulator((EWrapper,))
+eClientAccum = EClientAccumulator((EClient, ))
 
 wrapperMethods = list(eWrapperAccum.getSignatures())
-clientSocketMethods = list(eClientAccum.getSignatures())
+clientMethods = list(eClientAccum.getSignatures())
 errorMethods = [('error', Error.__slots__), ]
 
 buildMessageRegistry(wrapperMethods)
-buildMessageRegistry(clientSocketMethods, suffixes=('Pre', 'Post'))
+buildMessageRegistry(clientMethods, suffixes=('Pre', 'Post'))
 buildMessageRegistry(errorMethods)
 
 def initModule():
@@ -174,9 +173,7 @@ except (NameError, ):
 else:
     del(initModule)
 
-
-del(AnyWrapper)
 del(EWrapper)
-del(EClientSocket)
+del(EClient)
 del(eWrapperAccum)
 del(eClientAccum)

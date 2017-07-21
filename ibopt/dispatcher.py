@@ -7,8 +7,8 @@
 ##
 from queue import Queue, Empty
 
-from ib.lib import maybeName, logger
-from ib.opt import message
+from ibopt.lib import maybeName, logger
+from ibopt import message
 
 
 class Dispatcher(object):

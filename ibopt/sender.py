@@ -5,18 +5,19 @@
 # Defines Sender class to handle outbound requests.
 #
 # Sender instances defer failed attribute lookup to their
-# EClientSocket member objects.
+# EClient member objects.
 #
 ##
 from functools import wraps
+import threading
 
-from ib.ext.EClientSocket import EClientSocket
-from ib.lib import toTypeName
-from ib.opt.message import registry, clientSocketMethods
+from ibapi.client import EClient
+from ibopt.lib import toTypeName
+from ibopt.message import registry, clientMethods
 
 
 class Sender(object):
-    """ Encapsulates an EClientSocket instance, and proxies attribute
+    """ Encapsulates an EClient instance, and proxies attribute
         lookup to it.
 
     """
@@ -28,24 +29,30 @@ class Sender(object):
         @param dispatcher message dispatcher instance
         """
         self.dispatcher = dispatcher
-        self.clientMethodNames = [m[0] for m in clientSocketMethods]
+        self.clientMethodNames = [m[0] for m in clientMethods]
+        self.decoderThread = None
 
-    def connect(self, host, port, clientId, handler, clientType=EClientSocket):
+    def connect(self, host, port, clientId, handler, clientType=EClient):
         """ Creates a TWS client socket and connects it.
 
         @param host name of host for connection; default is localhost
         @param port port number for connection; default is 7496
         @param clientId client identifier to send when connected
         @param handler object to receive reader messages
-        @keyparam clientType=EClientSocket callable producing socket client
+        @keyparam clientType=EClient callable producing socket client
         @return True if connected, False otherwise
         """
         def reconnect():
             self.client = client = clientType(handler)
-            client.eConnect(host, port, clientId)
+            client.connect(host, port, clientId)
             return client.isConnected()
         self.reconnect = reconnect
-        return self.reconnect()
+        success = self.reconnect()
+        if success and self.decoderThread is None:
+            # Start EClient.run in a thread
+            self.decoderThread = threading.Thread(target=self.client.run)
+            self.decoderThread.start()
+        return success
 
     def disconnect(self):
         """ Disconnects the client.
@@ -54,31 +61,20 @@ class Sender(object):
         """
         client = self.client
         if client and client.isConnected():
-            client.eDisconnect()
-            return not client.isConnected()
+            client.disconnect()
+            success = not client.isConnected()
+            if success:
+                self.decoderThread = None
+            return success
         return False
 
     def __getattr__(self, name):
         """ x.__getattr__('name') <==> x.name
 
-        @return named attribute from EClientSocket object
+        @return named attribute from EClient object
         """
         try:
             value = getattr(self.client, name)
         except (AttributeError, ):
             raise
-        if name not in self.clientMethodNames:
-            return value
         return value
-        preName, postName = name+'Pre', name+'Post'
-        preType, postType = registry[preName], registry[postName]
-        @wraps(value)
-        def wrapperMethod(*args):
-            mapping = dict(list(zip(preType.__slots__, args)))
-            results = self.dispatcher(preName, mapping)
-            if not all(results):
-                return # raise exception instead?
-            result = value(*args)
-            self.dispatcher(postName, mapping)
-            return result # or results?
-        return wrapperMethod
