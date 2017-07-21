@@ -1,2 +1,4 @@
 include LICENSE
 recursive-include demo *
+include versioneer.py
+include ibopt/_version.py

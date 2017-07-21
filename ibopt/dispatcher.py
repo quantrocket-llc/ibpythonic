@@ -5,8 +5,6 @@
 # Defines Dispatcher class to send messages to registered listeners.
 #
 ##
-from queue import Queue, Empty
-
 from ibopt.lib import maybeName, logger
 from ibopt import message
 
@@ -69,28 +67,6 @@ class Dispatcher(object):
         """
         line = str.join(', ', ('%s=%s' % item for item in list(message.items())))
         self.logger.debug('%s(%s)', message.typeName, line)
-
-    def iterator(self, *types):
-        """ Create and return a function for iterating over messages.
-
-        @param *types zero or more message types to associate with listener
-        @return function that yields messages
-        """
-        queue = Queue()
-        closed = []
-        def messageGenerator(block=True, timeout=0.1):
-            while True:
-                try:
-                    yield queue.get(block=block, timeout=timeout)
-                except (Empty, ):
-                    if closed:
-                        break
-        self.register(closed.append, 'ConnectionClosed')
-        if types:
-            self.register(queue.put, *types)
-        else:
-            self.registerAll(queue.put)
-        return messageGenerator
 
     def register(self, listener, *types):
         """ Associate listener with message types created by this Dispatcher.
