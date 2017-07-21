@@ -8,6 +8,8 @@
 
 __version__ = '0.8.0'
 
+from ibopt.patch.patch_ibapi import patch
+patch()
 
 ##
 # Sugary sweet layer of icing on top of the TWS API.
