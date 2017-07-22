@@ -1,7 +1,7 @@
 # ibopt 
 ibopt is an IbPy-like interface for the Interactive Brokers Python API.
 
-The targeted audience for ibopt are (a) old IbPy users who want to upgrade to the latest Interactive Brokers API release, or (b) non-IbPy Pythonistas who find the Java-centric paradigm of the IB API heavy on boilerplate and short on Pythonic elegance.
+The targeted audience for ibopt includes (a) old IbPy users who want to upgrade to the latest Interactive Brokers API release, or (b) non-IbPy Pythonistas who find the Java-centric paradigm of the IB API heavy on boilerplate and short on Pythonic elegance.
 
 ## Background
 
