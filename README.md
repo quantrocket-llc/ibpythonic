@@ -1,9 +1,11 @@
 # ibopt 
-IbPy-like interface for the Interactive Brokers Python API
+ibopt is an IbPy-like interface for the Interactive Brokers Python API.
+
+The targeted audience for ibopt are (a) old IbPy users who want to upgrade to the latest Interactive Brokers API release, or (b) non-IbPy Pythonistas who find the Java-centric paradigm of the IB API heavy on boilerplate and short on Pythonic elegance.
 
 ## Background
 
-Prior to 2017, [IbPy](https://github.com/blampe/IbPy) was the de facto way to connect to the Interactive Brokers API using Python. Beginning with release 9.73, Interactive Brokers now officially supports a Python API client, rendering IbPy obsolete. IbPy development stopped with API release 970, meaning users who still use IbPy don't have access to a considerable number of features which Interactive Brokers has added in subsequent API releases.
+Prior to 2017, [IbPy](https://github.com/blampe/IbPy) was the de facto way to connect to the Interactive Brokers API using Python. Beginning with API release 9.73, Interactive Brokers now officially supports a Python API client, rendering IbPy largely obsolete. IbPy development stopped with API release 970, meaning users who still use IbPy don't have access to a considerable number of features which Interactive Brokers has added in subsequent API releases.
 
 Although the Java-to-Python translation which IbPy provided is now superfluous, IbPy also provided its own so-called "optional" interface which many IbPy users found more convenient than the default paradigm of subclassing `EClient` and `EWrapper`. 
 
@@ -19,7 +21,7 @@ pip install ibopt
 
 ## Requirements
 
-* Interactive Brokers Python API client. The client isn't automatically installed by ibopt but is available [here](https://interactivebrokers.github.io/). The client requires Python 3.
+* Interactive Brokers Python API client. The client isn't automatically installed by ibopt; it is available [here](https://interactivebrokers.github.io/). The client requires Python 3.
 * ibopt installs [ibapi-grease](https://github.com/quantrocket-llc/ibapi-grease) to deal with some current slowness in the Python API client implementation. If you don't want this, install ibopt with no dependencies: `pip install --no-deps ibopt`
 
 ## Quickstart
@@ -69,7 +71,15 @@ ibopt is IbPy-like but it is not a drop-in replacement for IbPy. Migrating exist
 
 There are probably additional gotchas.  
 
+## Contributing
+
+Contributions and pull requests are welcome. Right now, updating the `demo` directory to work with `ibapi` would be especially welcome.
+
+ibopt is maintained by the team at [QuantRocket](https://www.quantrocket.com). QuantRocket is a Docker-based microservice platform for automated trading with Interactive Brokers. QuantRocket is currently under development, so our focus is on building out the platform and updating ibopt as needed by the platform. In the short term, this may limit our bandwidth for making changes to ibopt not required by our platform; however, we are beneficiaries of open source software and intend to maintain ibopt indefinitely going forward.
+ 
 ## Usage guide
+*[the following guide is taken directly from the IbPy wiki]*
+
 ibopt provides an optional interface that does not require subclassing. This interface provides several conveniences for your use.
 
 To interoperate with this package, first define your handlers. Each handler must take a single parameter, a Message instance. Instances of Message have attributes and values set by the connection object before they're passed to your handler.
