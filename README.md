@@ -5,7 +5,7 @@ The targeted audience for ibpythonic includes (a) old IbPy users who want to upg
 
 ## Background
 
-Prior to 2017, [IbPy](https://github.com/blampe/IbPy) was the de facto way to connect to the Interactive Brokers API using Python. Beginning with API release 9.73, Interactive Brokers now officially supports a Python API client, rendering IbPy largely obsolete. IbPy development stopped with API release 970, meaning users who still use IbPy don't have access to a considerable number of features which Interactive Brokers has added in subsequent API releases.
+Prior to 2017, [IbPy](https://github.com/blampe/IbPy) was the de facto way to connect to the Interactive Brokers API using Python. Beginning with API release 9.73, Interactive Brokers now officially supports a Python API client, rendering IbPy largely obsolete. IbPy development stopped with API release 9.70, meaning users who still use IbPy don't have access to a considerable number of features which Interactive Brokers has added in subsequent API releases.
 
 Although the Java-to-Python translation which IbPy provided is now superfluous, IbPy also provided its own so-called "optional" interface which many IbPy users found more convenient than the default paradigm of subclassing `EClient` and `EWrapper`. 
 
