@@ -6,3 +6,5 @@ release-*
 ._*
 .DS_Store
 *.bak
+/ibpythonic.egg-info/
+/dist/
