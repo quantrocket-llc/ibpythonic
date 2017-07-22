@@ -1,7 +1,7 @@
 # ibpythonic 
 ibpythonic is an IbPy-like interface for the Interactive Brokers Python API.
 
-The targeted audience for ibpythonic includes (a) old IbPy users who want to upgrade to the latest Interactive Brokers API release, or (b) non-IbPy Pythonistas who find the Java-centric paradigm of the IB API heavy on boilerplate and short on Pythonic elegance.
+The targeted audience for ibpythonic includes (a) old IbPy users who want to upgrade to the latest Interactive Brokers API release, or (b) non-IbPy Pythonistas who find the Java-centric paradigm of the IB API inflexible and heavy on boilerplate.
 
 ## Background
 
@@ -9,7 +9,7 @@ Prior to 2017, [IbPy](https://github.com/blampe/IbPy) was the de facto way to co
 
 Although the Java-to-Python translation which IbPy provided is now superfluous, IbPy also provided its own so-called "optional" interface which many IbPy users found more convenient than the default paradigm of subclassing `EClient` and `EWrapper`. 
 
-ibpythonic is a fork of IbPy which removes the translated Java code from `ib.ext` and updates the optional interface in `ib.opt` to support the offical Python API client. 
+ibpythonic is a fork of IbPy which removes the translated Java-to-Python code from `ib.ext` and updates the optional interface in `ib.opt` to support the offical Python API client. 
 
 ## Installation
 
@@ -78,7 +78,7 @@ Contributions and pull requests are welcome. Right now, updating the `demo` dire
 ibpythonic is maintained by [QuantRocket](https://www.quantrocket.com). QuantRocket is a Docker-based microservice platform for automated trading with Interactive Brokers. QuantRocket is currently under development, so our focus is on building out the platform and updating ibpythonic as needed by the platform. In the short term, this may limit our bandwidth for making changes to ibpythonic not required by our platform; however, we are beneficiaries of open source software and intend to maintain ibpythonic indefinitely going forward.
  
 ## Usage guide
-*[the following guide is taken directly from the IbPy wiki]*
+*[the following guide is taken more or less directly from the IbPy wiki]*
 
 ibpythonic provides an optional interface that does not require subclassing. This interface provides several conveniences for your use.
 
