@@ -1,5 +1,4 @@
 include LICENSE
-include README.md
 recursive-include demo *
 include versioneer.py
-include ibopt/_version.py
+include ibpythonic/_version.py

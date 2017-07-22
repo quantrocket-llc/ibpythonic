@@ -17,9 +17,9 @@
 # >>> con.placeOrder(...)
 #
 ##
-from ibopt.dispatcher import Dispatcher
-from ibopt.receiver import Receiver
-from ibopt.sender import Sender
+from ibpythonic.dispatcher import Dispatcher
+from ibpythonic.receiver import Receiver
+from ibpythonic.sender import Sender
 
 
 class Connection(object):

@@ -13,7 +13,7 @@ else:
 #
 # Use:
 #    {{{
-#    from ibopt import ibConnection, message
+#    from ibpythonic import ibConnection, message
 #
 #    def my_callback(msg):
 #        ...
@@ -26,7 +26,7 @@ else:
 #    con.unregister(my_callback, message.TickSize)
 #    }}}
 #
-from ibopt.connection import Connection
+from ibpythonic.connection import Connection
 
 
 ##

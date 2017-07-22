@@ -11,8 +11,8 @@
 # ib.opt.message module more information.
 #
 ##
-from ibopt.lib.overloading import overloaded
-from ibopt.message import wrapperMethods
+from ibpythonic.lib.overloading import overloaded
+from ibpythonic.message import wrapperMethods
 
 
 def messageMethod(name, parameters):

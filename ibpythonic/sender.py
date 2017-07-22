@@ -12,8 +12,8 @@ from functools import wraps
 import threading
 
 from ibapi.client import EClient
-from ibopt.lib import toTypeName
-from ibopt.message import registry, clientMethods
+from ibpythonic.lib import toTypeName
+from ibpythonic.message import registry, clientMethods
 
 
 class Sender(object):

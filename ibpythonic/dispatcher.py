@@ -5,8 +5,8 @@
 # Defines Dispatcher class to send messages to registered listeners.
 #
 ##
-from ibopt.lib import maybeName, logger
-from ibopt import message
+from ibpythonic.lib import maybeName, logger
+from ibpythonic import message
 
 
 class Dispatcher(object):
