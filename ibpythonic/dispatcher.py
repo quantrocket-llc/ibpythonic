@@ -5,7 +5,8 @@
 # Defines Dispatcher class to send messages to registered listeners.
 #
 ##
-from ibpythonic.lib import maybeName, logger
+import logging
+from ibpythonic.lib import maybeName
 from ibpythonic import message
 
 
@@ -13,7 +14,7 @@ class Dispatcher(object):
     """
 
     """
-    def __init__(self, listeners=None, messageTypes=None):
+    def __init__(self, listeners=None, messageTypes=None, logger=None):
         """ Initializer.
 
         @param listeners=None mapping of existing listeners
@@ -21,7 +22,7 @@ class Dispatcher(object):
         """
         self.listeners = listeners if listeners else {}
         self.messageTypes = messageTypes if messageTypes else message.registry
-        self.logger = logger.logger()
+        self.logger = logger or logging.getLogger("ibpythonic")
 
     def __call__(self, name, args):
         """ Send message to each listener.

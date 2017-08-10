@@ -66,7 +66,7 @@ class Connection(object):
 
     @classmethod
     def create(cls, host='localhost', port=7496, clientId=0,
-               receiver=None, sender=None, dispatcher=None):
+               receiver=None, sender=None, dispatcher=None, logger=None):
         """ Creates and returns Connection class (or subclass) instance.
 
         For the receiver, sender, and dispatcher parameters, pass in
@@ -80,10 +80,11 @@ class Connection(object):
         @param receiver=None object for reading messages
         @param sender=None object for writing requests
         @param dispatcher=None object for dispatching messages
+        @param logger=None optional logger instance to pass to Dispatcher
 
         @return Connection (or subclass) instance
         """
-        dispatcher = Dispatcher() if dispatcher is None else dispatcher
+        dispatcher = Dispatcher(logger=logger) if dispatcher is None else dispatcher
         receiver = Receiver(dispatcher) if receiver is None else receiver
         sender = Sender(dispatcher) if sender is None else sender
         return cls(host, port, clientId, receiver, sender, dispatcher)
