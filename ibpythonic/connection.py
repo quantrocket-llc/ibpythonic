@@ -86,5 +86,5 @@ class Connection(object):
         """
         dispatcher = Dispatcher(logger=logger) if dispatcher is None else dispatcher
         receiver = Receiver(dispatcher) if receiver is None else receiver
-        sender = Sender(dispatcher) if sender is None else sender
+        sender = Sender(dispatcher, logger=logger) if sender is None else sender
         return cls(host, port, clientId, receiver, sender, dispatcher)

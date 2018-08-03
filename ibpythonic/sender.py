@@ -13,6 +13,7 @@ import threading
 
 from ibapi.client import EClient
 from ibpythonic.lib import toTypeName
+from ibpythonic.lib.log import logThreadErrors
 from ibpythonic.message import registry, clientMethods
 
 
@@ -23,7 +24,7 @@ class Sender(object):
     """
     client = None
 
-    def __init__(self, dispatcher):
+    def __init__(self, dispatcher, logger=None):
         """ Initializer.
 
         @param dispatcher message dispatcher instance
@@ -31,6 +32,7 @@ class Sender(object):
         self.dispatcher = dispatcher
         self.clientMethodNames = [m[0] for m in clientMethods]
         self.decoderThread = None
+        self.logger = logger
 
     def connect(self, host, port, clientId, handler, clientType=EClient):
         """ Creates a TWS client socket and connects it.
@@ -50,7 +52,11 @@ class Sender(object):
         success = self.reconnect()
         if success and self.decoderThread is None:
             # Start EClient.run in a thread
-            self.decoderThread = threading.Thread(target=self.client.run)
+            if self.logger:
+                target = logThreadErrors(self.client.run, self.logger)
+            else:
+                target = self.client.run
+            self.decoderThread = threading.Thread(target=target)
             self.decoderThread.start()
         return success
 
