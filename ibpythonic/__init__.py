@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-try:
-    from ibapi_grease import patch_all
-except ImportError:
-    pass
-else:
-    patch_all()
-
 ##
 # Sugary sweet layer of icing on top of the TWS API.
 #

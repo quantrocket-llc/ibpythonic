@@ -13,7 +13,4 @@ setup(
     url='https://github.com/quantrocket-llc/ibpythonic',
     license='BSD License',
     packages=['ibpythonic', 'ibpythonic/lib', 'ibpythonic/sym'],
-    install_requires=[
-        'ibapi-grease'
-    ]
 )
