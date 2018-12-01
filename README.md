@@ -1,4 +1,4 @@
-# ibpythonic 
+# ibpythonic
 ibpythonic is an IbPy-like interface for the Interactive Brokers Python API.
 
 The targeted audience for ibpythonic includes (a) old IbPy users who want to upgrade to the latest Interactive Brokers API release, or (b) non-IbPy Pythonistas who find the Java-centric paradigm of the IB API inflexible and heavy on boilerplate.
@@ -7,9 +7,9 @@ The targeted audience for ibpythonic includes (a) old IbPy users who want to upg
 
 Prior to 2017, [IbPy](https://github.com/blampe/IbPy) was the de facto way to connect to the Interactive Brokers API using Python. Beginning with API release 9.73, Interactive Brokers now officially supports a Python API client, rendering IbPy largely obsolete. IbPy development stopped with API release 9.70, meaning users who still use IbPy don't have access to a considerable number of features which Interactive Brokers has added in subsequent API releases.
 
-Although the Java-to-Python translation which IbPy provided is now superfluous, IbPy also provided its own so-called "optional" interface which many IbPy users found more convenient than the default paradigm of subclassing `EClient` and `EWrapper`. 
+Although the Java-to-Python translation which IbPy provided is now superfluous, IbPy also provided its own so-called "optional" interface which many IbPy users found more convenient than the default paradigm of subclassing `EClient` and `EWrapper`.
 
-ibpythonic is a fork of IbPy which removes the translated Java-to-Python code from `ib.ext` and updates the optional interface in `ib.opt` to support the offical Python API client. 
+ibpythonic is a fork of IbPy which removes the translated Java-to-Python code from `ib.ext` and updates the optional interface in `ib.opt` to support the offical Python API client.
 
 ## Installation
 
@@ -22,12 +22,11 @@ pip install ibpythonic
 ## Requirements
 
 * Interactive Brokers Python API client. The client isn't automatically installed by ibpythonic; it is available [here](https://interactivebrokers.github.io/). The client requires Python 3.
-* ibpythonic installs [ibapi-grease](https://github.com/quantrocket-llc/ibapi-grease) to deal with some current slowness in the Python API client implementation. If you don't want this, install ibpythonic with no dependencies: `pip install --no-deps ibpythonic`
 
 ## Quickstart
 
 Usage looks very similar to IbPy:
-    
+
 ```python
 from ibpythonic import ibConnection, message
 from ibapi.contract import Contract
@@ -66,17 +65,17 @@ ibpythonic is IbPy-like but it is not a drop-in replacement for IbPy. Migrating 
 * **import paths have changed**: Anything your code imports from `ib.opt` will now come from `ibpythonic`.
 * **ib.ext is gone, use ibapi instead**: Anything your code imports from `ib.ext`, such as `Contract` and `Order` objects, will now need to come from the relevant `ibapi` module. Moreover, the attribute names for these objects have changed (for example, `Contract.m_symbol` is now `Contract.symbol`). Review the API client documentation for details: https://interactivebrokers.github.io/tws-api/index.html#gsc.tab=0
 * **TickType.getField has changed**: If your code uses `TickType.getField(tickType)` to look up field names by tick type integers, the field names have changed. For example, `'bidSize'` is now `'BID_SIZE'`. You can see the new names by looking at `ibapi.ticktype.TickTypeEnum`.
-* **Python 3 only**: The official Python client from Interactive Brokers requires Python 3. 
+* **Python 3 only**: The official Python client from Interactive Brokers requires Python 3.
 
 
-There are probably additional gotchas.  
+There are probably additional gotchas.
 
 ## Contributing
 
 Contributions and pull requests are welcome. Right now, updating the `demo` directory to work with `ibapi` would be especially welcome.
 
 ibpythonic is maintained by [QuantRocket](https://www.quantrocket.com). QuantRocket is a Docker-based microservice platform for automated trading with Interactive Brokers. QuantRocket is currently under development, so our focus is on building out the platform and updating ibpythonic as needed by the platform. In the short term, this may limit our bandwidth for making changes to ibpythonic not required by our platform; however, we are beneficiaries of open source software and intend to maintain ibpythonic indefinitely going forward.
- 
+
 ## Usage guide
 *[the following guide is taken more or less directly from the IbPy wiki]*
 
@@ -123,7 +122,7 @@ Your handlers are passed a single parameter, an instance of the Message class (o
     msg.tickerId = 4
     msg.field = 3
     msg.size = 100
-    
+
 ## License
 
 ibpythonic is distributed under the New BSD License. See the LICENSE file in the
