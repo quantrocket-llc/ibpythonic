@@ -56,7 +56,7 @@ class Sender(object):
                 target = logThreadErrors(self.client.run, self.logger)
             else:
                 target = self.client.run
-            self.decoderThread = threading.Thread(target=target)
+            self.decoderThread = threading.Thread(target=target, daemon=True)
             self.decoderThread.start()
         return success
 
