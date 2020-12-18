@@ -70,12 +70,6 @@ ibpythonic is IbPy-like but it is not a drop-in replacement for IbPy. Migrating 
 
 There are probably additional gotchas.
 
-## Contributing
-
-Contributions and pull requests are welcome. Right now, updating the `demo` directory to work with `ibapi` would be especially welcome.
-
-ibpythonic is maintained by [QuantRocket](https://www.quantrocket.com). QuantRocket is a Docker-based microservice platform for automated trading with Interactive Brokers. QuantRocket is currently under development, so our focus is on building out the platform and updating ibpythonic as needed by the platform. In the short term, this may limit our bandwidth for making changes to ibpythonic not required by our platform; however, we are beneficiaries of open source software and intend to maintain ibpythonic indefinitely going forward.
-
 ## Usage guide
 *[the following guide is taken more or less directly from the IbPy wiki]*
 
