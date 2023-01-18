@@ -126,7 +126,7 @@ class Error(Message):
     The error family of method calls can't be built programmatically,
     so we define one here.
     """
-    __slots__ = ('id', 'errorCode', 'errorMsg')
+    __slots__ = ('id', 'errorCode', 'errorMsg', 'advancedOrderRejectJson')
 
 
 def buildMessageRegistry(seq, suffixes=[''], bases=(Message, )):
