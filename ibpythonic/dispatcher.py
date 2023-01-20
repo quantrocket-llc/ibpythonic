@@ -6,6 +6,7 @@
 #
 ##
 import logging
+import traceback
 from ibpythonic.lib import maybeName
 from ibpythonic import message
 
@@ -43,8 +44,12 @@ class Dispatcher(object):
                 results.append(listener(message))
             except (Exception, ):
                 errmsg = ("Exception in message dispatch.  "
-                          "Handler '%s' for '%s'")
-                self.logger.exception(errmsg, maybeName(listener), name)
+                          f"Handler '{maybeName(listener)}' for '{name}'")
+                self.logger.error(errmsg)
+                tb = traceback.format_exc()
+                lines = tb.split("\n")
+                for l in lines:
+                    self.logger.error(l)
                 results.append(None)
         return results
 
