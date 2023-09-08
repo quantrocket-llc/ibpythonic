@@ -47,7 +47,7 @@ class EClientAccumulator(SignatureAccumulator):
 class EWrapperAccumulator(SignatureAccumulator):
     def getSignatures(self):
         for name, args in self.signatures:
-            if match('(?!((?i)error.*|__init__))', name):
+            if match('(?i)(?!((error.*)|(__init__)))', name):
                 yield (name, args)
 
 
